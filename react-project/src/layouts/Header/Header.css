@@ -1,0 +1,95 @@
+
+#menu-main-container {
+    position: fixed;
+    width: 100%;
+    top: 0;
+    left: 0;
+    z-index: 10;
+    background-color: #001D46;
+}
+
+
+/*BOTÓN MENÚ HAMBURGUESA*/
+
+    .menu-toggle {
+        display: none;
+        position: absolute;
+        top: 15px;
+        right: 20px;
+        cursor: pointer;
+    }
+
+    .menu-toggle img {
+        width: 35px;
+        height: 35px;
+    }
+
+    .menu-toggle img:hover{
+        opacity: 0.7;
+    }
+
+    /* Diseño responsivo */
+    @media (max-width: 768px) {
+        .menu-toggle {
+            display: block;
+        }
+    }
+
+
+/*MENÚ NAVEGACIÓN*/
+
+    #menuNav {
+        display: flex;
+        justify-content: end;
+        gap: 30px;
+        list-style: none;
+        padding: 20px;
+        margin: 0;
+    }
+
+    #menuNav li {
+        margin: 0;
+    }
+
+    #menuNav a {
+        text-decoration: none;
+        color: rgb(33, 218, 178);
+        font-weight: bold;
+        transition: color 0.3s;
+    }
+
+    #menuNav a:hover {
+        color: white;
+        
+    }
+
+
+    /* Diseño responsivo */
+    @media (max-width: 768px) {
+    
+        #menuNav {
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            display: none;
+            position: absolute;
+            top: 60px;
+            right: 0;
+            background-color: #001D46;
+            width: 30%;
+            padding: 20px 0;
+            border-top: 2px solid rgb(33, 218, 178);
+        }
+
+        #menuNav.active {
+            display: flex;
+        }
+
+        #menuNav li {
+            margin-bottom: 15px;
+        }
+
+        #menuNav a {
+            font-size: 18px;
+        }
+    }

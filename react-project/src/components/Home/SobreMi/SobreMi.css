@@ -1,0 +1,31 @@
+#main-desc-container{
+    background-color: #001D46;
+    padding: 30px;
+}
+
+#main-desc-container h1{
+    color: azure;
+    text-align: center;
+}
+
+#main-desc-container p{
+    color: rgb(26, 214, 214);
+    text-align: justify;
+    width: 50%;
+    margin: auto;
+    font-size: 20px;
+}
+
+#main-desc-container ul li{
+    color: rgb(26, 214, 214);
+    text-align: justify;
+    width: 40%;
+    margin: auto;
+    font-size: 20px;
+}
+
+ @media (max-width: 1200px) {
+    #main-desc-container p{
+        width: 90%;
+    }
+ }

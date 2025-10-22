@@ -1,0 +1,59 @@
+#tecno-container{
+    background-color: #001D46;
+    padding: 20px;
+}
+
+/* TÍTULO */
+
+    #tecno-container h1{
+        color: azure;
+        text-align: center;
+    }
+
+
+/* NOMBRE CATEGORÍA */
+
+    #tecno-container h4{
+        color: azure;
+        text-align: center;
+    }
+
+
+/*NOMBRE TECNOLOGÍAS*/
+
+    .tec-contenedor{
+        width: 30%;
+        height: auto;
+        margin: auto;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 10px;
+    }
+
+        .card-tecno-leng{
+            background-color: #448eb1;
+            width: 75px;
+            height: 100px;
+            padding: 10px;
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .card-tecno-leng #img_tecno{
+            max-width: 40px;
+            max-height: 40px;
+            align-self: center;
+        }
+
+        .card-tecno-leng h3{
+            text-align: center;
+            margin: 0;
+            font-size: 10px;
+            color: white;
+        }
+
+
+

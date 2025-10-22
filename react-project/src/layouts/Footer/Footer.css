@@ -1,0 +1,28 @@
+/* Footer Styles */
+#site-footer {
+  background-color: #001d46; /* Mismo color que el menú para consistencia */
+  color: rgb(33, 218, 178);
+  text-align: center;
+  padding: 15px 0;
+  font-size: 14px;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  left: 0;
+  z-index: 100;
+}
+
+#site-footer p {
+  margin: 0;
+  line-height: 1.5;
+}
+
+#site-footer a {
+  color: rgb(33, 218, 178);
+  text-decoration: none;
+  font-weight: bold;
+}
+
+#site-footer a:hover {
+  color: white;
+}

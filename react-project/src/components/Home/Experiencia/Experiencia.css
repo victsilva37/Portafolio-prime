@@ -1,0 +1,110 @@
+#exp-main-container{
+    background-color: #001D46;
+    padding: 20px;
+
+}
+
+#exp-main-container h1{
+    color: azure;
+    text-align: center;
+}
+
+#exp-content{
+    width: 40%;
+    margin: auto;
+    flex-wrap: wrap;
+}
+
+ @media (max-width: 768px) {
+    #exp-content{
+        width: 80%;
+    }
+ }
+
+/*SECCIÓN INFO EXPERIENCIA*/
+
+    #exp-content h4{
+        color: azure;
+        text-align: start;
+        margin: 0;
+    }
+
+    #exp-content p{
+        color: rgb(26, 214, 214);
+        text-align: justify;
+    }
+
+    #exp-content small{
+        color: rgb(210, 226, 226);
+        text-align: start;
+    }
+
+        .exp-item{
+            margin-top: 20px;
+            background-color: #0c4596;
+            padding: 10px;
+        }
+
+
+/*SECCIÓN TECNOLOGÍAS*/
+
+    /* #tec_exp {
+        display: flex;
+        flex-direction: column;
+    } */
+
+    #tec-exp{
+
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-direction: column;
+        color: azure;
+        flex-wrap: wrap;
+    }
+
+
+    #tec-exp ul{
+        display: flex;
+        gap: 25px;
+        color: azure;
+        list-style: none;
+        flex-wrap: wrap;
+    }
+
+    #tec-exp ul li{
+        display: flex;
+        align-items: center;
+    }
+
+
+ /*MODALIDAD*/
+
+    #modalidad-exp{
+        text-align: end;
+    }
+
+    #modalidad-exp ul li{
+        list-style: none;
+        color: rgb(208, 255, 0);
+    }
+
+ 
+/* 
+    #tec-exp ul li p{
+        font-size: 10px;
+    }
+
+     @media (max-width: 768px) {
+        #tec-exp ul li p{
+            display: none;
+        }
+
+        #tec-exp ul li img{
+            width: 100px;
+            height: 100px;
+        }
+     } */
+
+
+

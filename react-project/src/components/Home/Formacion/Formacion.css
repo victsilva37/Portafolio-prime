@@ -1,0 +1,92 @@
+#form-main-container{
+    background-color: #001D46;
+    padding: 30px;
+}
+
+#form-main-container h1{
+    color: azure;
+    text-align: center;
+}
+
+#form-main-container .form-item{
+    background-color: #0f4da3;
+    width: 60%;
+    margin: auto;
+    padding: 20px;
+}
+
+@media (max-width: 1500px){
+        #form-main-container .form-item{
+            width: 70%;
+        }
+    }
+
+/*NOMBRE DE LA FORMACIÓN*/
+
+    .form-item h4{
+        color: azure;
+    }
+
+
+/*SEDE Y FECHAS*/
+
+    .form-item small{
+        color: rgb(210, 226, 226);
+    }
+
+
+/*DESCRIPCIÓN E IMAGEN*/
+
+    .form-logo{
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+    }
+
+    .form-logo p{
+        color: rgb(26, 214, 214); 
+        text-align: justify;
+        width: 70%;
+    }
+
+    @media (max-width: 1500px){
+        .form-logo p{
+            width: 100%;
+        }
+    }
+
+    .form-logo img{
+        max-height: 150px;
+    }
+
+    @media (max-width: 1500px){
+        .form-logo img{
+            align-content: center;
+        }
+    }
+
+
+/* CONTENEDOR DE LOGROS */
+
+    .form-logros {
+        display: flex;
+        justify-content: start;
+        gap: 10px;
+        margin-top: 10px;
+    }
+
+    /* ÍCONOS DE LOGROS */
+    .form-logros a img {
+        max-height: 40px;
+        transition: transform 0.3s ease;
+    }
+
+    .form-logros a img:hover {
+        transform: scale(1.2);
+    }
+
+    @media (max-width: 1500px) {
+        .form-logros {
+            flex-wrap: wrap;
+        }
+    }

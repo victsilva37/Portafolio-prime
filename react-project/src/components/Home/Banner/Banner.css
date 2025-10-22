@@ -1,0 +1,40 @@
+#main-banner-container{
+    background-image: url(../../../assets/img/Banner/background.png);
+    background-size: cover;
+    width: 100%;
+    height: 400px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    display: flex;
+    justify-content:center;
+    gap: 50px;
+    align-items: center;
+}
+
+
+/*FOTO PERFIL*/
+
+    #logo_perfil{
+        border-radius: 50%;
+        object-fit: cover;
+        width: 200px;
+        height: 200px;
+    }
+
+
+/*DESCRIPCIÓN*/
+
+    #IAM-content{
+        margin: 0;
+        text-align: center;
+    }
+
+    #IAM-content h1{
+        margin: 0;
+        color: rgb(0, 255, 191);
+    }
+
+    #IAM-content span{
+        color: rgb(0, 255, 191);
+    }
+
+  
