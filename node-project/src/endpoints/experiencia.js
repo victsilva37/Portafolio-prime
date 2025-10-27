@@ -1,6 +1,7 @@
+// experiencia.js
 const express = require("express");
 const router = express.Router();
-const pool = require("../config/database");
+const supabase = require("../config/database"); // 👈 Importa el cliente de Supabase
 const authenticateToken = require("./login_auth");
 
 // Función auxiliar para formatear fecha
@@ -17,55 +18,70 @@ function formatFecha(fecha) {
 router.post("/", authenticateToken, async (req, res) => {
   try {
     const { cargo_exp, empresa, desc_exp, fecha_inicio, fecha_fin, modalidad, direccion } = req.body;
-    const result = await pool.query(
-      `INSERT INTO experiencia 
-       (cargo_exp, empresa, desc_exp, fecha_inicio, fecha_fin, modalidad, direccion)
-       VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *`,
-      [cargo_exp, empresa, desc_exp, fecha_inicio, fecha_fin || null, modalidad, direccion]
-    );
-    res.json({ message: "Experiencia insertada correctamente", experiencia: result.rows[0] });
+
+    const { data, error } = await supabase
+      .from("experiencia")
+      .insert([
+        { cargo_exp, empresa, desc_exp, fecha_inicio, fecha_fin: fecha_fin || null, modalidad, direccion },
+      ])
+      .select()
+      .single();
+
+    if (error) throw error;
+
+    res.json({ message: "Experiencia insertada correctamente", experiencia: data });
   } catch (error) {
     console.error("Error al insertar experiencia:", error);
     res.status(500).json({ error: "Error al insertar experiencia" });
   }
 });
 
+// --- OBTENER EXPERIENCIAS ---
 router.get("/", async (req, res) => {
   try {
-    const result = await pool.query(`
-      SELECT e.*, 
-        COALESCE(
-          json_agg(
-            json_build_object(
-              'id_tecnologia', t.id_tecnologia,
-              'desc_tecnologia', t.desc_tecnologia,
-              'categoria', t.categoria,
-              'icono', t.icono
+    // Obtenemos las experiencias
+    const { data: experiencias, error: expError } = await supabase
+      .from("experiencia")
+      .select("*")
+      .order("fecha_inicio", { ascending: false });
+
+    if (expError) throw expError;
+
+    // Para cada experiencia, obtenemos sus tecnologías relacionadas
+    const experienciasConTecnologias = await Promise.all(
+      experiencias.map(async (exp) => {
+        const { data: tecnologias, error: tecError } = await supabase
+          .from("experiencia_tecnologia")
+          .select(
+            `
+            id_tecnologia,
+            tecnologia (
+              id_tecnologia,
+              desc_tecnologia,
+              categoria,
+              icono
             )
-          ) FILTER (WHERE t.id_tecnologia IS NOT NULL), '[]'
-        ) AS tecnologias
-      FROM experiencia e
-      LEFT JOIN experiencia_tecnologia et ON e.id_experiencia = et.id_experiencia
-      LEFT JOIN tecnologia t ON t.id_tecnologia = et.id_tecnologia
-      GROUP BY e.id_experiencia
-      ORDER BY e.fecha_inicio DESC
-    `);
+            `
+          )
+          .eq("id_experiencia", exp.id_experiencia);
 
-    // Formatear las fechas antes de enviar
-    const experienciasFormateadas = result.rows.map(exp => ({
-      ...exp,
-      fecha_inicio: formatFecha(exp.fecha_inicio),
-      fecha_fin: exp.fecha_fin ? formatFecha(exp.fecha_fin) : null
-    }));
+        if (tecError) throw tecError;
 
-    res.json(experienciasFormateadas);
+        return {
+          ...exp,
+          fecha_inicio: formatFecha(exp.fecha_inicio),
+          fecha_fin: exp.fecha_fin ? formatFecha(exp.fecha_fin) : null,
+          tecnologias: tecnologias?.map((t) => t.tecnologia) || [],
+        };
+      })
+    );
+
+    res.json(experienciasConTecnologias);
   } catch (error) {
     console.error("Error al obtener experiencias:", error);
     res.status(500).json({ error: "Error al obtener experiencias" });
   }
 });
-
-
 
 // --- ACTUALIZAR EXPERIENCIA ---
 router.put("/:id", authenticateToken, async (req, res) => {
@@ -73,17 +89,24 @@ router.put("/:id", authenticateToken, async (req, res) => {
     const { id } = req.params;
     const { cargo_exp, empresa, desc_exp, fecha_inicio, fecha_fin, modalidad, direccion } = req.body;
 
-    const result = await pool.query(
-      `UPDATE experiencia
-       SET cargo_exp=$1, empresa=$2, desc_exp=$3, fecha_inicio=$4, fecha_fin=$5, modalidad=$6, direccion=$7
-       WHERE id_experiencia=$8 RETURNING *`,
-      [cargo_exp, empresa, desc_exp, fecha_inicio, fecha_fin || null, modalidad, direccion, id]
-    );
+    const { data, error } = await supabase
+      .from("experiencia")
+      .update({
+        cargo_exp,
+        empresa,
+        desc_exp,
+        fecha_inicio,
+        fecha_fin: fecha_fin || null,
+        modalidad,
+        direccion,
+      })
+      .eq("id_experiencia", id)
+      .select()
+      .single();
 
-    if (result.rows.length === 0)
-      return res.status(404).json({ error: "Experiencia no encontrada" });
+    if (error) throw error;
 
-    res.json({ message: "Experiencia actualizada correctamente", experiencia: result.rows[0] });
+    res.json({ message: "Experiencia actualizada correctamente", experiencia: data });
   } catch (error) {
     console.error("Error al actualizar experiencia:", error);
     res.status(500).json({ error: "Error al actualizar experiencia" });
@@ -94,12 +117,16 @@ router.put("/:id", authenticateToken, async (req, res) => {
 router.delete("/:id", authenticateToken, async (req, res) => {
   try {
     const { id } = req.params;
-    const result = await pool.query(
-      "DELETE FROM experiencia WHERE id_experiencia=$1 RETURNING *",
-      [id]
-    );
 
-    if (result.rows.length === 0)
+    const { data, error } = await supabase
+      .from("experiencia")
+      .delete()
+      .eq("id_experiencia", id)
+      .select();
+
+    if (error) throw error;
+
+    if (!data || data.length === 0)
       return res.status(404).json({ error: "Experiencia no encontrada" });
 
     res.json({ message: "Experiencia eliminada correctamente" });

@@ -25,7 +25,7 @@ export const useExperiencias = () => {
   useEffect(() => {
     const fetchExperiencias = async () => {
       try {
-        const res = await fetch("http://localhost:3000/api/experiencias", {
+        const res = await fetch("https://portafolio-prime-back.vercel.app/api/experiencias", {
           headers: {
             Authorization: `Bearer ${import.meta.env.REACT_APP_API_TOKEN}`,
           },

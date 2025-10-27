@@ -26,7 +26,7 @@ export default function Menu(){
                 <ul id="menuNav" className={menuActive ? "active" : ""}>
                     <li><a href="#banner">INICIO</a></li>
                     <li><a href="#sobre-mi">SOBRE MÍ</a></li>
-                    <li><a href="#tecnologias">HABILIDADES</a></li>
+                    <li><a href="#tecnologias">TECNOLOGÍAS</a></li>
                     <li><a href="#experiencia">EXPERIENCIA</a></li>
                     <li><a href="#formacion">FORMACIÓN</a></li>
                     <li><a href="#proyectos">PROYECTOS</a></li>

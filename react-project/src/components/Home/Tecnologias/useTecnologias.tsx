@@ -15,7 +15,7 @@ export function useTecnologias() {
   useEffect(() => {
     const fetchTecnologias = async () => {
       try {
-        const res = await fetch("https://portafolio-prime-back.vercel.app/api/tecnologias", {
+        const res = await fetch("https://portafolio-prime-back.vercel.app/api/tecnologias", { //https://portafolio-prime-back.vercel.app/api/tecnologias
           headers: {
             Authorization: `Bearer ${import.meta.env.API_TOKEN}`,
           },

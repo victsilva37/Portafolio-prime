@@ -1,34 +1,30 @@
-const { Pool } = require("pg");
-require("dotenv").config();
-
-const pool = new Pool({
-  connectionString: process.env.DATABASE_PUBLIC_URL,
-  ssl: { rejectUnauthorized: false } // importante si es Render o Supabase
-});
-
-module.exports = pool;
-
-// database.js
+// // database.js
 // const { Pool } = require("pg");
 // require("dotenv").config();
 
-// // Si estás en desarrollo local, usa los parámetros individuales.
-// // Si estás en producción (Render/Vercel), usa la variable DATABASE_PUBLIC_URL.
-// const isProduction = process.env.NODE_ENV === "production";
+// const pool = new Pool({
+//   connectionString: process.env.DATABASE_PUBLIC_URL,
+//   ssl: { rejectUnauthorized: false }
+// });
 
-// const pool = new Pool(
-//   isProduction
-//     ? {
-//         connectionString: process.env.DATABASE_PUBLIC_URL,
-//         ssl: { rejectUnauthorized: false },
-//       }
-//     : {
-//         user: process.env.DB_USER || "postgres",
-//         host: process.env.DB_HOST || "localhost",
-//         database: process.env.DB_NAME || "portafolio_db",
-//         password: process.env.DB_PASSWORD || "tu_contraseña",
-//         port: process.env.DB_PORT || 5432,
-//       }
-// );
+// pool.on("connect", () => {
+//   console.log("Conectado a la base de datos ✅");
+// });
 
-module.exports = pool;
+// pool.on("error", (err) => {
+//   console.error("Error en la conexión a la DB", err);
+// });
+
+// module.exports = pool;
+
+// config/supabaseClient.js
+require("dotenv").config();
+const { createClient } = require("@supabase/supabase-js");
+
+const supabaseUrl = process.env.SUPABASE_URL;
+const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY; // o SERVICE_ROLE_KEY si es backend seguro
+
+const supabase = createClient(supabaseUrl, supabaseKey);
+
+module.exports = supabase;
+

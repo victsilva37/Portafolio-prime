@@ -16,7 +16,7 @@ export function useFormacion() {
   useEffect(() => {
     const fetchFormacion = async () => {
       try {
-        const res = await fetch("http://localhost:3000/api/formacion");
+        const res = await fetch("https://portafolio-prime-back.vercel.app/api/formacion");
         if (!res.ok) throw new Error("Error al traer formaciones");
         const data: Formacion[] = await res.json();
         setFormaciones(data);

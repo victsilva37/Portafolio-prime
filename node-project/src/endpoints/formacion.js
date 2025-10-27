@@ -1,6 +1,7 @@
+// formacion.js
 const express = require("express");
 const router = express.Router();
-const pool = require("../config/database");
+const supabase = require("../config/database");
 const authenticateToken = require("./login_auth");
 
 // Función auxiliar para formatear fecha
@@ -15,14 +16,25 @@ function formatFecha(fecha) {
 router.post("/", authenticateToken, async (req, res) => {
   try {
     const { nombre_formacion, sede, desc_formacion, fecha_inicio, fecha_fin, img_formacion } = req.body;
-    const result = await pool.query(
-      `INSERT INTO formacion 
-       (nombre_formacion, sede, desc_formacion, fecha_inicio, fecha_fin, img_formacion)
-       VALUES ($1, $2, $3, $4, $5, $6)
-       RETURNING *`,
-      [nombre_formacion, sede, desc_formacion, fecha_inicio, fecha_fin || null, img_formacion]
-    );
-    res.json({ message: "Formación insertada correctamente", formacion: result.rows[0] });
+
+    const { data, error } = await supabase
+      .from("formacion")
+      .insert([
+        {
+          nombre_formacion,
+          sede,
+          desc_formacion,
+          fecha_inicio,
+          fecha_fin: fecha_fin || null,
+          img_formacion
+        },
+      ])
+      .select()
+      .single();
+
+    if (error) throw error;
+
+    res.json({ message: "Formación insertada correctamente", formacion: data });
   } catch (error) {
     console.error("Error al insertar formación:", error);
     res.status(500).json({ error: "Error al insertar formación" });
@@ -32,13 +44,17 @@ router.post("/", authenticateToken, async (req, res) => {
 // --- OBTENER TODA LA FORMACIÓN ---
 router.get("/", async (req, res) => {
   try {
-    const result = await pool.query("SELECT * FROM formacion ORDER BY fecha_inicio DESC");
+    const { data, error } = await supabase
+      .from("formacion")
+      .select("*")
+      .order("fecha_inicio", { ascending: false });
 
-    // Formatear fechas antes de enviar al frontend
-    const formaciones = result.rows.map(f => ({
+    if (error) throw error;
+
+    const formaciones = data.map((f) => ({
       ...f,
       fecha_inicio: formatFecha(f.fecha_inicio),
-      fecha_fin: f.fecha_fin ? formatFecha(f.fecha_fin) : null
+      fecha_fin: f.fecha_fin ? formatFecha(f.fecha_fin) : null,
     }));
 
     res.json(formaciones);
@@ -54,17 +70,23 @@ router.put("/:id", authenticateToken, async (req, res) => {
     const { id } = req.params;
     const { nombre_formacion, sede, desc_formacion, fecha_inicio, fecha_fin, img_formacion } = req.body;
 
-    const result = await pool.query(
-      `UPDATE formacion
-       SET nombre_formacion=$1, sede=$2, desc_formacion=$3, fecha_inicio=$4, fecha_fin=$5, img_formacion=$6
-       WHERE id_formacion=$7 RETURNING *`,
-      [nombre_formacion, sede, desc_formacion, fecha_inicio, fecha_fin || null, img_formacion, id]
-    );
+    const { data, error } = await supabase
+      .from("formacion")
+      .update({
+        nombre_formacion,
+        sede,
+        desc_formacion,
+        fecha_inicio,
+        fecha_fin: fecha_fin || null,
+        img_formacion,
+      })
+      .eq("id_formacion", id)
+      .select()
+      .single();
 
-    if (result.rows.length === 0)
-      return res.status(404).json({ error: "Formación no encontrada" });
+    if (error) throw error;
 
-    res.json({ message: "Formación actualizada correctamente", formacion: result.rows[0] });
+    res.json({ message: "Formación actualizada correctamente", formacion: data });
   } catch (error) {
     console.error("Error al actualizar formación:", error);
     res.status(500).json({ error: "Error al actualizar formación" });
@@ -75,13 +97,15 @@ router.put("/:id", authenticateToken, async (req, res) => {
 router.delete("/:id", authenticateToken, async (req, res) => {
   try {
     const { id } = req.params;
-    const result = await pool.query(
-      "DELETE FROM formacion WHERE id_formacion=$1 RETURNING *",
-      [id]
-    );
 
-    if (result.rows.length === 0)
-      return res.status(404).json({ error: "Formación no encontrada" });
+    const { data, error } = await supabase
+      .from("formacion")
+      .delete()
+      .eq("id_formacion", id)
+      .select();
+
+    if (error) throw error;
+    if (!data || data.length === 0) return res.status(404).json({ error: "Formación no encontrada" });
 
     res.json({ message: "Formación eliminada correctamente" });
   } catch (error) {

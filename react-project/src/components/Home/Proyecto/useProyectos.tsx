@@ -22,7 +22,7 @@ export function useProyectos() {
   useEffect(() => {
     async function fetchProyectos() {
       try {
-        const response = await fetch("http://localhost:3000/api/proyectos");
+        const response = await fetch("https://portafolio-prime-back.vercel.app/api/proyectos");
         const data = await response.json();
         setProyectos(data);
       } catch (error) {
