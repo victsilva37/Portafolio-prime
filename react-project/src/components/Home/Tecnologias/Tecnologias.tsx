@@ -4,7 +4,7 @@ import { useTecnologias } from './useTecnologias';
 export default function Tecnologias() {
   const { tecnologiasPorCategoria, loading, error } = useTecnologias();
 
-  const categorias = ["Lenguajes", "Bases de datos", "Frameworks/Librer¡as", "Herramientas"];
+  const categorias = ["Lenguajes", "Bases de datos", "Frameworks/Librerías", "Herramientas"];
 
   return (
     <div id="tecno-container">
