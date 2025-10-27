@@ -38,7 +38,7 @@ export default function Tecnologias() {
                         <div key={tec.id_tecnologia} className="card-tecno-leng">
                         <img
                             id="img_tecno"
-                            src={`http://localhost:3000${tec.icono}`}
+                            src={`https://portafolio-prime-back.vercel.app${tec.icono}`}
                             alt={`${tec.desc_tecnologia} icono`}
                         />
                         <h3>{tec.desc_tecnologia}</h3>

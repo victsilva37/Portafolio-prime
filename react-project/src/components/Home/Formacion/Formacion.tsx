@@ -24,7 +24,7 @@ export default function Formacion() {
               <div className="form-logo">
                 <p>{form.desc_formacion}</p>
                 <img
-                  src={`http://localhost:3000${form.img_formacion}`}
+                  src={`https://portafolio-prime-back.vercel.app${form.img_formacion}`}
                   alt={`Logo ${form.sede}`}
                 />
               </div>

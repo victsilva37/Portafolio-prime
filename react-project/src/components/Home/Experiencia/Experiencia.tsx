@@ -36,7 +36,7 @@ export default function Experiencias() {
 
                         {/*Icono tecnología*/}
                         <img
-                          src={`http://localhost:3000${tec.icono}`}
+                          src={`https://portafolio-prime-back.vercel.app${tec.icono}`}
                           alt={tec.desc_tecnologia}
                           style={{ width: 20, height: 20, marginRight: 5 }}
                         />

@@ -32,7 +32,7 @@ export default function Proyectos() {
                     <li key={tec.id_tecnologia}>
                       <img
                         id="icon_tecnolo"
-                        src={`http://localhost:3000${tec.icono}`}
+                        src={`https://portafolio-prime-back.vercel.app${tec.icono}`}
                         alt={tec.desc_tecnologia}
                         title={tec.desc_tecnologia}
                       />
