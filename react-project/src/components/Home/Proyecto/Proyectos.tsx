@@ -16,7 +16,7 @@ export default function Proyectos() {
               {/* BANNER DEL PROYECTO */}
               <div id="banner_img_proyecto">
                 <img
-                  src={`https://portafolio-prime-back.vercel.app${proyecto.img_proyecto}`}
+                  src={`https://portafolio-prime-back.vercel.app/${proyecto.img_proyecto}`}
                   alt={proyecto.nombre_proyecto}
                 />
               </div>
